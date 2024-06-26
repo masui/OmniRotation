@@ -3,11 +3,14 @@
 // 2 低速キー
 // 3 高速キー
 
+const RIGHT = 0
+const LEFT = 1
 var state = 0;
+var direction = RIGHT
 
 function state1to2(){
     if(state == 1){ // 低速
-	execRightSlow()
+	execSlow(direction)
     }
     state = 2
 }
@@ -20,17 +23,19 @@ var timeout1 = null
 var fastrep = 0
 var slowrep = 0
 
-function execRightFast(){
-    fastrep += 1
+function execFast(dir){
+    direction = dir
+    fastrep += (direction == RIGHT ? 1 : -1)
     $('#fast').text(fastrep)
 }
-function execRightSlow(){
-    slowrep += 1
+function execSlow(dir){
+    direction = dir
+    slowrep += (direction == RIGHT ? 1 : -1)
     $('#slow').text(slowrep)
 }
 
-function right(){
-    console.log("Right")
+function move(dir){
+    direction = dir
     if(state == 0){
 	state = 1
 	clearTimeout(timeout1)
@@ -41,24 +46,27 @@ function right(){
 	clearTimeout(timeout1)
 	console.log('state=1')
 	console.log(fastrep)
-	execRightFast()
-	execRightFast()
+	execFast(dir)
+	execFast(dir)
 	console.log(fastrep)
     }
     else if(state == 2){
 	// 低速
 	clearTimeout(timeout1)
-	execRightSlow()
+	execSlow(dir)
     }
     else if(state == 3){
 	clearTimeout(timeout1)
-	execRightFast()
+	execFast(dir)
     }
     clearTimeout(resetTimeout)
     resetTimeout = setTimeout(resetState,1000)
 }
+function right(){
+    move(RIGHT)
+}
 function left(){
-    console.log("Left")
+    move(LEFT)
 }
 
 
