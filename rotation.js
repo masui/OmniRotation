@@ -60,7 +60,7 @@ function move(dir){
 	execFast(dir)
     }
     clearTimeout(resetTimeout)
-    resetTimeout = setTimeout(resetState,1000)
+    resetTimeout = setTimeout(resetState,800)
 }
 function right(){
     move(RIGHT)
