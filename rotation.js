@@ -50,12 +50,11 @@ function move(dir){
 	execFast(dir)
 	console.log(fastrep)
     }
-    else if(state == 2){
-	// 低速
+    else if(state == 2){ // 低速
 	clearTimeout(timeout1)
 	execSlow(dir)
     }
-    else if(state == 3){
+    else if(state == 3){ // 高速
 	clearTimeout(timeout1)
 	execFast(dir)
     }
