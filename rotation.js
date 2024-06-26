@@ -14,7 +14,7 @@ var direction = RIGHT
 
 function state1to2(){
     if(state == 1){ // 低速
-	execSlow(direction)
+	slow(direction)
     }
     state = 2
 }
@@ -27,12 +27,12 @@ var timeout1 = null
 var fastrep = 0
 var slowrep = 0
 
-function execFast(dir){
+function fast(dir){
     direction = dir
     fastrep += (direction == RIGHT ? 1 : -1)
     $('#fast').text(fastrep)
 }
-function execSlow(dir){
+function slow(dir){
     direction = dir
     slowrep += (direction == RIGHT ? 1 : -1)
     $('#slow').text(slowrep)
@@ -40,42 +40,43 @@ function execSlow(dir){
 
 function move(dir){
     direction = dir
+    clearTimeout(timeout1)
+    clearTimeout(resetTimeout)
     if(state == 0){
 	state = 1
-	clearTimeout(timeout1)
 	timeout1 = setTimeout(state1to2,500)
     }
     else if(state == 1){
 	state = 3
-	clearTimeout(timeout1)
-	execFast(dir)
-	execFast(dir)
+	fast(dir)
+	fast(dir)
     }
     else if(state == 2){ // 低速
-	clearTimeout(timeout1)
-	execSlow(dir)
+	slow(dir)
     }
     else if(state == 3){ // 高速
-	clearTimeout(timeout1)
-	execFast(dir)
+	fast(dir)
     }
     clearTimeout(resetTimeout)
-    resetTimeout = setTimeout(resetState,800)
+    resetTimeout = setTimeout(resetState,1000)
 }
+/*
 function right(){
     move(RIGHT)
 }
 function left(){
     move(LEFT)
 }
+*/
 
 document.addEventListener('keydown', event => {
-    // 変数eventの中身はKeyboardEventオブジェクト
     if(event.key == 'ArrowRight'){
-	right();
+	move(RIGHT)
+	//right();
     }
     if(event.key == 'ArrowLeft'){
-	left();
+	move(LEFT)
+	//left();
     }
 });
 
