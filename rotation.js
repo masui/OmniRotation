@@ -1,3 +1,7 @@
+//
+// 回転ダイヤルとかの操作速度で動きを変える
+//
+
 // 0 リセット状態
 // 1 最初に押された状態、1000msたってない状態
 // 2 低速キー
@@ -44,11 +48,8 @@ function move(dir){
     else if(state == 1){
 	state = 3
 	clearTimeout(timeout1)
-	console.log('state=1')
-	console.log(fastrep)
 	execFast(dir)
 	execFast(dir)
-	console.log(fastrep)
     }
     else if(state == 2){ // 低速
 	clearTimeout(timeout1)
@@ -67,7 +68,6 @@ function right(){
 function left(){
     move(LEFT)
 }
-
 
 document.addEventListener('keydown', event => {
     // 変数eventの中身はKeyboardEventオブジェクト
