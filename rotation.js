@@ -78,3 +78,6 @@ document.addEventListener('keydown', event => {
 	left();
     }
 });
+
+document.addEventListener('keyup', event => {
+});
