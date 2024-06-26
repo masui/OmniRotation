@@ -2,17 +2,17 @@
 // 回転ダイヤルとかの操作速度で動きを変える
 //
 
+const RIGHT = 0
+const LEFT = 1
+var direction = RIGHT
+
+var state = 0;
 // 0 リセット状態
 // 1 最初に押された状態、1000msたってない状態
 // 2 低速キー
 // 3 高速キー
 
-const RIGHT = 0
-const LEFT = 1
-var state = 0;
-var direction = RIGHT
-
-function state1to2(){
+function state2(){
     if(state == 1){ // 低速
 	slow(direction)
     }
@@ -21,30 +21,30 @@ function state1to2(){
 function resetState(){
     state = 0
 }
-var resetTimeout = null
-var timeout1 = null
+var resetTimeout = null // 初期状態にもどる
+var slowModeTimeout = null // 速さチェック
 
-var fastrep = 0
-var slowrep = 0
+var fastval = 0
+var slowval = 0
 
 function fast(dir){
     direction = dir
-    fastrep += (direction == RIGHT ? 1 : -1)
-    $('#fast').text(fastrep)
+    fastval += (direction == RIGHT ? 1 : -1)
+    document.getElementById('fast').textContent = fastval;
 }
 function slow(dir){
     direction = dir
-    slowrep += (direction == RIGHT ? 1 : -1)
-    $('#slow').text(slowrep)
+    slowval += (direction == RIGHT ? 1 : -1)
+    document.getElementById('slow').textContent = slowval;
 }
 
 function move(dir){
     direction = dir
-    clearTimeout(timeout1)
+    clearTimeout(slowModeTimeout)
     clearTimeout(resetTimeout)
     if(state == 0){
 	state = 1
-	timeout1 = setTimeout(state1to2,500)
+	slowModeTimeout = setTimeout(state2,500)
     }
     else if(state == 1){
 	state = 3
