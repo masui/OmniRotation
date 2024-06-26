@@ -60,23 +60,13 @@ function move(dir){
     clearTimeout(resetTimeout)
     resetTimeout = setTimeout(resetState,1000)
 }
-/*
-function right(){
-    move(RIGHT)
-}
-function left(){
-    move(LEFT)
-}
-*/
 
 document.addEventListener('keydown', event => {
     if(event.key == 'ArrowRight'){
 	move(RIGHT)
-	//right();
     }
     if(event.key == 'ArrowLeft'){
 	move(LEFT)
-	//left();
     }
 });
 
