@@ -6,20 +6,21 @@ const RIGHT = 0
 const LEFT = 1
 var direction = RIGHT
 
-var state = 0;
-// 0 リセット状態
-// 1 最初に押された状態、1000msたってない状態
-// 2 低速キー
-// 3 高速キー
+const RESETSTATE = 0 // リセット状態
+const CHECKSTATE = 1 // fast/slow判定前状態
+const SLOWSTATE = 2
+const FASTSTATE = 3
+var state = RESETSTATE;
 
-function state2(){
-    if(state == 1){ // 低速
+function slowState(){
+    if(state == CHECKSTATE){
+	// fast/slow 判断前だったとき
 	slow(direction)
     }
-    state = 2
+    state = SLOWSTATE
 }
 function resetState(){
-    state = 0
+    state = RESETSTATE
 }
 var resetTimeout = null // 初期状態にもどる
 var slowModeTimeout = null // 速さチェック
@@ -42,19 +43,19 @@ function move(dir){
     direction = dir
     clearTimeout(slowModeTimeout)
     clearTimeout(resetTimeout)
-    if(state == 0){
-	state = 1
-	slowModeTimeout = setTimeout(state2,500)
+    if(state == RESETSTATE){
+	state = CHECKSTATE
+	slowModeTimeout = setTimeout(slowState,500)
     }
-    else if(state == 1){
-	state = 3
+    else if(state == CHECKSTATE){
+	state = FASTSTATE
 	fast(dir)
 	fast(dir)
     }
-    else if(state == 2){ // 低速
+    else if(state == SLOWSTATE){ // 低速
 	slow(dir)
     }
-    else if(state == 3){ // 高速
+    else if(state == FASTSTATE){ // 高速
 	fast(dir)
     }
     clearTimeout(resetTimeout)
